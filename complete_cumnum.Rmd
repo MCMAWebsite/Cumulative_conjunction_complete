@@ -7,7 +7,7 @@ knitr::opts_chunk$set(echo=F)
 knitr::opts_chunk$set(warning=F)
 knitr::opts_chunk$set(message=F)
 
-user_website <- file.path(path.expand('~'), "Website", "Website_files")
+user_website <- file.path(path.expand('~'), "Website", "WebsiteFiles")
 
 if(!require(tidyverse)) {install.packages("tidyverse", repos="https://cran.us.r-project.org")}
 if(!require(kableExtra)) {install.packages("kableExtra", repos="https://cran.us.r-project.org")}

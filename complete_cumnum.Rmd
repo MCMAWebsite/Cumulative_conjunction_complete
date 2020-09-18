@@ -7,12 +7,11 @@ knitr::opts_chunk$set(echo=F)
 knitr::opts_chunk$set(warning=F)
 knitr::opts_chunk$set(message=F)
 
-user_docs <- path.expand('~')
-user_website <- paste0(user_docs, "/Website/Website_files")
+user_website <- file.path(path.expand('~'), "Website", "Website_files")
 
-install.packages("tidyverse", repos="http://cran.us.r-project.org")
-install.packages("kableExtra", repos="http://cran.us.r-project.org")
-install.packages("DT", repos="http://cran.us.r-project.org")
+if(!require(tidyverse)) {install.packages("tidyverse", repos="https://cran.us.r-project.org")}
+if(!require(kableExtra)) {install.packages("kableExtra", repos="https://cran.us.r-project.org")}
+if(!require(DT)) {install.packages("DT", repos="https://cran.us.r-project.org")}
 
 library(tidyverse)
 library(readr)
@@ -25,18 +24,16 @@ library(stringr)
 library(scales)
 Sys.setenv(TZ='EST')
 
-mcma_objs = readRDS(paste0(user_website, "/RDSfiles/mcma_objs"))
-all_conjs = readRDS(paste0(user_website, "/RDSfiles/all_conjs"))
-all_conjs_expanded = readRDS(paste0(user_website, "/RDSfiles/all_conjs_expanded"))
-derelicts = readRDS(paste0(user_website, "/RDSfiles/derelicts"))
-derelictDat = readRDS(paste0(user_website, "/RDSfiles/derelictDatNew"))
-alt_bins = readRDS(paste0(user_website, "/RDSfiles/alt_bins"))
-file_list = readRDS(paste0(user_website, "/RDSfiles/file_list"))
-all_conjs_2016 = readRDS(paste0(user_website, "/RDSfiles/all_conjs_2016"))
+mcma_objs = readRDS(file.path(user_website, "RDSfiles", "mcma_objs"))
+all_conjs = readRDS(file.path(user_website, "RDSfiles", "all_conjs"))
+all_conjs_expanded = readRDS(file.path(user_website, "RDSfiles", "all_conjs_expanded"))
+derelicts = readRDS(file.path(user_website, "RDSfiles", "derelicts"))
+derelictDat = readRDS(file.path(user_website, "RDSfiles", "derelictDatNew"))
+alt_bins = readRDS(file.path(user_website, "RDSfiles", "alt_bins"))
+file_list = readRDS(file.path(user_website, "RDSfiles", "file_list"))
+all_conjs_2016 = readRDS(file.path(user_website, "RDSfiles", "all_conjs_2016"))
 
 today = toupper(strftime(Sys.Date(), format="%d%b%Y")) # current day
-#path = "conj_data/"
-```
 
 ```{r update_conj_files, warning=F, eval=F}
 # # add new conjunction files to all_conjs dataframe
@@ -53,7 +50,7 @@ today = toupper(strftime(Sys.Date(), format="%d%b%Y")) # current day
 # 
 # all_conjs_new = data.frame()
 # for (i in 1:length(file_list_new)) {
-#   file = paste0(path, file_list_new[i])
+#   file = file.path(path, file_list_new[i])
 #   
 #   firstLine = readLines(file, n=2)[2]
 #   
@@ -71,8 +68,8 @@ today = toupper(strftime(Sys.Date(), format="%d%b%Y")) # current day
 # }
 # 
 # mycols <- '(PrimaryCluster, SecondaryCluster)'
-# minf <- paste0('min',mycols)
-# maxf <- paste0('max',mycols)
+# minf <- file.path('min',mycols)
+# maxf <- file.path('max',mycols)
 # 
 # all_conjs_new = all_conjs_new %>%
 #   mutate(DateGenerated = parse_date_time(DateGenerated, tz="EST", 
@@ -225,7 +222,7 @@ all_conjs %>%
                 breaks = c(10,100,300,500,1000,3000,5000)) +
   labs(x="Miss Distance (m)", y="Cumulative Number of Encounters",
        title="Cumulative Number of Encounters by Cluster", 
-       subtitle = paste0("Encounters from 20OCT2019-", today))+
+       subtitle = file.path("Encounters from 20OCT2019-", today))+
   scale_color_manual(values = mycolors)+
   annotation_logticks()+
   scale_linetype_manual(values=c("dashed", "solid", "solid", "solid",
